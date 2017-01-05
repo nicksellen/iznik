@@ -1,0 +1,70 @@
+version: '2'
+services:
+
+  # nginx
+  #------------------------------------
+
+  web:
+    container_name: iznik_dev_web
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    ports:
+      - 58080:8080
+    depends_on:
+      - app
+    volumes:
+      - .:/app
+
+  # main php app
+  #------------------------------------
+
+  app:
+    container_name: iznik_dev_app
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - 59000:9000
+    links:
+      - db:db
+    volumes:
+      - .:/app
+    environment:
+      FS_ENV: dev
+
+  # mysql
+  #------------------------------------
+
+  db:
+    container_name: iznik_dev_db
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    expose:
+      - 3306
+    ports:
+      - 53306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: iznik
+    volumes:
+      - .:/app
+
+  # redis
+  #------------------------------------
+
+  redis:
+    container_name: iznik_dev_redis
+    image: redis:alpine
+    expose:
+      - 6379
+
+  # beanstalkd
+  #------------------------------------
+
+  beanstalkd:
+    container_name: iznik_dev_beanstalkd
+    image: schickling/beanstalkd
+    expose:
+      - 11300
