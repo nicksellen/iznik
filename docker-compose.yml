@@ -14,12 +14,14 @@ services:
     depends_on:
       - app
     volumes:
-      - .:/app
+      - .:/var/www/iznik
+      - ./docker/web/iznik.conf:/etc/nginx/conf.d/iznik.conf
 
   # main php app
   #------------------------------------
 
   app:
+    #command: hhvm --mode server -d hhvm.server.type=fastcgi -d hhvm.server.port=9000
     container_name: iznik_dev_app
     build:
       context: .
@@ -29,7 +31,9 @@ services:
     links:
       - db:db
     volumes:
-      - .:/app
+      - .:/var/www/iznik
+      - ./docker/app/iznik.conf.php:/etc/iznik.conf
+      - ./docker/app/hhvm:/etc/hhrmvm
     environment:
       FS_ENV: dev
 

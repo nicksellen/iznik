@@ -1,5 +1,5 @@
 <?php
-# This file should be suitably modified, then go into /etc/iznik.conf
+
 define('SQLDB', 'iznik');
 define('SQLHOST', 'db');
 define('SQLPORT', 3307);
@@ -7,6 +7,8 @@ define('SQLUSER', 'root');
 define('SQLPASSWORD', 'root');
 define('PASSWORD_SALT', 'zzzz');
 define('MODERATOR_EMAIL', 'zzzz');
+
+define('REDIS_CONNECT', 'redis');
 
 # Beanstalkd
 define('BEANSTALKDHOST', 'beanstalkd');
@@ -61,7 +63,7 @@ $host = $_SERVER && array_key_exists('HTTP_HOST', $_SERVER) ? $_SERVER['HTTP_HOS
 define('SITE_HOST', $host);
 
 # Where we send event tracking.
-define('EVENT_HOST', 'dev.ilovefreegle.org');
+define('EVENT_HOST', 'localhost:58080');
 
 switch($host) {
     case 'iznik.modtools.org':

@@ -12,8 +12,15 @@ RUN \
   --install-dir=/usr/local/bin \
   --filename=composer
 
-WORKDIR /app/http
+RUN mkdir -p /usr/local/share/GeoIP && \
+  curl \
+  http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz > \
+  /usr/local/share/GeoIP/GeoLite2-Country.mmdb.gz && \
+  gzip -d /usr/local/share/GeoIP/GeoLite2-Country.mmdb.gz
 
-RUN ln -s /app/docker/app/iznik.conf.php /etc/iznik.conf
+WORKDIR /var/www/iznik/http
 
-CMD hhvm -m server -p 9000
+CMD hhvm \
+  --mode server \
+  --config /etc/hhvm/php.ini \
+  --config /etc/hhvm/server.ini
