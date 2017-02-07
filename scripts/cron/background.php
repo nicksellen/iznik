@@ -17,7 +17,7 @@ $dbhm->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
 
 
 try {
-    $pheanstalk = new Pheanstalk('127.0.0.1');
+    $pheanstalk = new Pheanstalk(BEANSTALKDHOST, BEANSTALKDPORT);
 
     while (true) {
         $job = $pheanstalk->reserve();
