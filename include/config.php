@@ -7,7 +7,6 @@ if (!defined('IZNIK_BASE')) {
     define('DUPLICATE_POST_PROTECTION', 10); # Set to 0 to disable
     define('API_RETRIES', 5);
     define('REDIS_TTL', 30);
-    define('REDIS_CONNECT', '/var/run/redis/redis.sock');
     define('BROWSERTRACKING', TRUE);
     define('INCLUDE_TEMPLATE_NAME', TRUE);
     define('SQLLOG', TRUE);

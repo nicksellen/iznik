@@ -8,6 +8,9 @@ define('SQLPASSWORD', 'zzzz');
 define('PASSWORD_SALT', 'zzzz');
 define('MODERATOR_EMAIL', 'zzzz');
 
+# Redis
+define('REDIS_CONNECT', '/var/run/redis/redis.sock');
+
 # Logos
 define('USERLOGO', 'https://www.ilovefreegle.org/images/user_logo.png');
 define('MODLOGO', 'https://modtools.org/images/modlogo-large.jpg');
