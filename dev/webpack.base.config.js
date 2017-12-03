@@ -67,12 +67,7 @@ exports['default'] = new Config().merge({
       {
         // Naughty module exposes an es6 module
         test: require.resolve('googlemaps-js-rich-marker/src/richmarker.es6'),
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['babel-preset-env']
-          }
-        }
+        use: 'babel-loader'
       }
     ]
   },
