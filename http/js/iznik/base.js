@@ -1007,7 +1007,7 @@ define([
             });
             return Promise.resolve(self.component).then(function(Component){
                 new Vue({
-                    el: this.$('.vue')[0],
+                    el: self.$('.vue')[0],
                     data: self.model.toJSON(),
                     created: function () {
                         var vm = this;
