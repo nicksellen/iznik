@@ -8,8 +8,7 @@ define([
     'backbone',
     'iznik/underscore',
     'moment',
-    'react',
-    'react-dom',
+    'vue',
     'backbone.collectionView',
     'waypoints',
     'dateshim',
@@ -23,7 +22,7 @@ define([
     'iznik/events',
     'iznik/timeago',
     'iznik/majax'
-], function ($, Backbone, _, moment, React, ReactDOM) {
+], function ($, Backbone, _, moment, Vue) {
     // Promise polyfill for older browsers or IE11 which has less excuse.
     if (typeof window.Promise !== 'function') {
         require('es6-promise').polyfill();
@@ -898,21 +897,11 @@ define([
             ourRender: function() {
                 var html;
 
-                var React = require('react');
-                var ReactDOM  = require('react-dom');
-
                 if (this.model) {
                     html = window.template(this.template)(this.model.toJSON2());
                 } else {
                     html = window.template(this.template)();
                 }
-
-                // console.log("React create", this.tagName, html, this.el);
-                // ReactDOM.render(React.createElement('div', {
-                //     dangerouslySetInnerHTML: {
-                //         __html: html
-                //     }
-                // }), this.el);
 
                 this.$el.html(html);
 
@@ -1008,6 +997,34 @@ define([
         return (ourview);
 
     })(Backbone.View);
+
+    Iznik.VueView = Iznik.View.extend({
+        render: function(){
+            var self = this;
+            self.$el.html('<span class="vue"></span>');
+            var on = _.mapObject(self.vueEvents, function(methodName){
+                return self[methodName].bind(self);
+            });
+            return Promise.resolve(self.component).then(function(Component){
+                new Vue({
+                    el: this.$('.vue')[0],
+                    data: self.model.toJSON(),
+                    created: function () {
+                        var vm = this;
+                        self.model.on('change', function() {
+                            Object.assign(vm, self.model.toJSON());
+                        });
+                    },
+                    render: function(h) {
+                        return h(Component, {
+                            props: this.$data,
+                            on: on
+                        })
+                    }
+                });
+            });
+        }
+    });
 
     Iznik.View.Timeago = Iznik.View.extend({
         timeagoRunning: false,

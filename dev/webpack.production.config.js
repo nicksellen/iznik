@@ -28,6 +28,9 @@ module.exports = new Config().extend('dev/webpack.base.config.js').merge({
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: 'bundlesize.html',
